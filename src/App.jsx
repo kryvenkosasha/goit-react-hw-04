@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
 import React from "react";
 import "./App.css";
 import Axios from "axios";
 import SearchBar from "./Components/SearchBar/SearchBar.jsx";
 import ImageGallery from "./Components/ImageGallery/ImageGallery.jsx";
+import ImageModal from "./Components/ImageModal/ImageModal.jsx";
 
 const App = () => {
   const [images, setImages] = useState([]);
@@ -26,7 +28,6 @@ const App = () => {
       setImages([...images, ...response.data.results]);
     } catch (error) {
       setError(error);
-      toast.error("The field cannot be empty");
     } finally {
       setLoading(false);
     }
@@ -41,12 +42,8 @@ const App = () => {
   };
 
   return (
-    <ToastProvider>
+    <>
       <SearchBar onSubmit={(query) => fetchImages(query)} />
-      {loading && (
-        <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
-      )}
-      {error && <div>Error: {error.message}</div>}
       {images.length > 0 && (
         <ImageGallery images={images} onImageClick={handleImageClick} />
       )}
@@ -57,7 +54,7 @@ const App = () => {
         />
       )}
       {images.length > 0 && <button onClick={handleLoadMore}>Load more</button>}
-    </ToastProvider>
+    </>
   );
 };
 
