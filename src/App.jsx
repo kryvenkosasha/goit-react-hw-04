@@ -1,58 +1,81 @@
-import { useState, useEffect } from "react";
-import React from "react";
-import "./App.css";
-import Axios from "axios";
-import SearchBar from "./Components/SearchBar/SearchBar.jsx";
-import ImageGallery from "./Components/ImageGallery/ImageGallery.jsx";
-import ImageModal from "./Components/ImageModal/ImageModal.jsx";
+import { useState } from "react";
+import { useEffect } from "react";
 
-const App = () => {
-  const [images, setImages] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
+import { requestPicturesQuery } from "./api.js";
+import Loader from "./Components/Loader/Loader";
+// import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import ImageGallery from "./Components/ImageGallery/ImageGallery";
+import SearchBar from "./Components/SearchBar/SearchBar";
+import LoadMoreBtn from "./Components/LoadMoreBtn/LoadMoreBtn";
+import ImageModal from "./Components/ImageModal/ImageModal.jsx";
+import Modal from "react-modal";
+
+Modal.setAppElement;
+
+function App() {
+  const [pictures, setPictures] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalData, setModalData] = useState(null);
 
   useEffect(() => {
-    if (page > 1) {
-      fetchImages();
-    }
-  }, [page]);
+    if (query.length === 0) return;
 
-  const fetchImages = async (query) => {
-    // setLoading(true);
-    try {
-      const response = await axios.get(
-        `https://api.unsplash.com/search/photos?query=${query}&page=${page}&client_id=m1_aCrol2RAfZegER2hGtnnENwyk2fMJV8g0UuvwyNs`
-      );
-      setImages([...images, ...response.data.results]);
-    } catch (error) {
-    } finally {
-      // setLoading(false);
+    async function fetchPicturesQuery() {
+      try {
+        setError(false);
+        setLoading(true);
+        const data = await requestPicturesQuery(query, page);
+        setPictures((prev) => [...prev, ...data.results]);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
     }
+
+    fetchPicturesQuery();
+  }, [query, page]);
+
+  const onSearchBar = (name) => {
+    setQuery(name);
+    setPictures([]);
+    setPage(1);
   };
 
-  const handleLoadMore = () => {
-    setPage(page + 1);
+  const onSearchPage = () => {
+    setPage((page) => page + 1);
   };
 
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
+  const openModal = (picture) => {
+    setModalData(picture.urls.regular);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalData(null);
+    setModalIsOpen(false);
   };
 
   return (
-    <>
-      <SearchBar onSubmit={(query) => fetchImages(query)} />
-      {images.length > 0 && (
-        <ImageGallery images={images} onImageClick={handleImageClick} />
+    <div>
+      <ImageModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        modalData={modalData}
+      />
+      <SearchBar onSearchBar={onSearchBar} />
+      {loading && <Loader />}
+      {error && <ErrorMessage />}
+      {pictures && (
+        <ImageGallery pictures={pictures} onImageClick={openModal} />
       )}
-      {selectedImage && (
-        <ImageModal
-          selectedImage={selectedImage}
-          onClose={() => setSelectedImage(null)}
-        />
-      )}
-      {images.length > 0 && <button onClick={handleLoadMore}>Load more</button>}
-    </>
+      {query.length !== 0 && <LoadMoreBtn onSearchPage={onSearchPage} />}
+    </div>
   );
-};
+}
 
 export default App;

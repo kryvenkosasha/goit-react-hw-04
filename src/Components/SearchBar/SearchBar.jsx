@@ -1,33 +1,27 @@
-import React from "react";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
-const SearchBar = ({ onSubmit }) => {
-  const [query, setQuery] = useState('');
+const notify = () => toast("Please enter search term!");
 
+const SearchBar = ({ onSearchBar }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (query.trim() === "") {
-      toast.error("The field cannot be empty");
+    const form = e.target;
+    const name = form.elements.name.value;
+    if (name.length === 0) {
+      notify();
     } else {
-      onSubmit(query);
+      onSearchBar(name);
+      form.reset();
     }
   };
 
   return (
-    <header>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-        />
-        <button type="submit">Search</button>
-      </form>
-    </header>
+    <form  onSubmit={handleSubmit}>
+      <h2>Add new pictures</h2>
+      <input type="text" name="name" placeholder="Search name..." />
+      <button type="submit">▶ Serch new pictures</button>
+      <Toaster />
+    </form>
   );
 };
 
