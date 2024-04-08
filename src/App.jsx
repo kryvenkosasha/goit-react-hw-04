@@ -8,8 +8,6 @@ import ImageModal from "./Components/ImageModal/ImageModal.jsx";
 
 const App = () => {
   const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [page, setPage] = useState(1);
 
@@ -20,16 +18,15 @@ const App = () => {
   }, [page]);
 
   const fetchImages = async (query) => {
-    setLoading(true);
+    // setLoading(true);
     try {
       const response = await axios.get(
         `https://api.unsplash.com/search/photos?query=${query}&page=${page}&client_id=m1_aCrol2RAfZegER2hGtnnENwyk2fMJV8g0UuvwyNs`
       );
       setImages([...images, ...response.data.results]);
     } catch (error) {
-      setError(error);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
