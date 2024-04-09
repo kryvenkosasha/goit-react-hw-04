@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useEffect } from "react";
-
+import "./App.css";
 import { requestPicturesQuery } from "./api.js";
 import Loader from "./Components/Loader/Loader";
-// import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageGallery from "./Components/ImageGallery/ImageGallery";
 import SearchBar from "./Components/SearchBar/SearchBar";
 import LoadMoreBtn from "./Components/LoadMoreBtn/LoadMoreBtn";

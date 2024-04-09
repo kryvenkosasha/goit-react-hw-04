@@ -2,8 +2,8 @@ import React from "react";
 
 const LoadMoreBtn = ({ onSearchPage }) => {
   return (
-    <button onClick={onSearchPage} type="submit">
-      Load more... Load more
+    <button className="search-button" onClick={onSearchPage} type="submit">
+      Load more
     </button>
   );
 };

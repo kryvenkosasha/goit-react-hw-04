@@ -1,4 +1,5 @@
 import toast, { Toaster } from "react-hot-toast";
+import './SearchBar.css'
 
 const notify = () => toast("Please enter search term!");
 
@@ -17,9 +18,9 @@ const SearchBar = ({ onSearchBar }) => {
 
   return (
     <form  onSubmit={handleSubmit}>
-      <h2>Add new pictures</h2>
-      <input type="text" name="name" placeholder="Search name..." />
-      <button type="submit">▶ Serch new pictures</button>
+      <h2 className="search-title">Find picture on request</h2>
+      <input className="search-input" type="text" name="name" placeholder="Search name..." />
+      <button className="search-button" type="submit">Search</button>
       <Toaster />
     </form>
   );

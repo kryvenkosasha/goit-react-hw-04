@@ -5,10 +5,7 @@ const instance = axios.create({
   baseURL: "https://api.unsplash.com",
 });
 
-// export const requestPictures = async () => {
-//   const { data } = await instance.get(`/photos/?client_id=${ACCESS_KEY}`);
-//   return data;
-// };
+
 
 export const requestPicturesQuery = async (query, page) => {
   const { data } = await instance.get(

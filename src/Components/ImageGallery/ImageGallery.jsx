@@ -1,8 +1,9 @@
 import ImageCard from "../ImageCard/ImageCard";
+import './ImageGallery.css'
 
 const ImageGallery = ({ pictures, onImageClick }) => {
   return (
-    <ul >
+    <ul className="images-list">
       {pictures &&
         pictures.length > 0 &&
         pictures.map((picture) => {

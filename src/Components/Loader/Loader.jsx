@@ -1,19 +1,18 @@
 import React from "react";
-import { RotatingLines } from "react-loader-spinner";
+import { MagnifyingGlass } from "react-loader-spinner";
 
 const Loader = () => {
   return (
     <div>
-      <RotatingLines
+      <MagnifyingGlass
         visible={true}
-        height="96"
-        width="96"
-        color="grey"
-        strokeWidth="5"
-        animationDuration="0.75"
-        ariaLabel="rotating-lines-loading"
+        height="80"
+        width="80"
+        ariaLabel="magnifying-glass-loading"
         wrapperStyle={{}}
-        wrapperClass=""
+        wrapperClass="magnifying-glass-wrapper"
+        glassColor="#c0efff"
+        color="#e15b64"
       />
     </div>
   );
