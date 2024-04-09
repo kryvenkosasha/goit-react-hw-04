@@ -7,6 +7,7 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import SearchBar from "./components/SearchBar/SearchBar";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal.jsx";
+import ErrorMessage from "./components/ErrorMessage/ErrorMessage.jsx";
 import Modal from "react-modal";
 
 Modal.setAppElement;
@@ -19,6 +20,7 @@ function App() {
   const [page, setPage] = useState(1);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [showLoadMore, setShowLoadMore] = useState(true);
 
   useEffect(() => {
     if (query.length === 0) return;
@@ -28,9 +30,15 @@ function App() {
         setError(false);
         setLoading(true);
         const data = await requestPicturesQuery(query, page);
+        if (data.total === 0) {
+          setError(true);
+          setShowLoadMore(false);
+        }
+        setShowLoadMore(true);
         setPictures((prev) => [...prev, ...data.results]);
       } catch (error) {
         setError(true);
+        setShowLoadMore(false);
       } finally {
         setLoading(false);
       }
@@ -72,7 +80,9 @@ function App() {
       {pictures && (
         <ImageGallery pictures={pictures} onImageClick={openModal} />
       )}
-      {query.length !== 0 && <LoadMoreBtn onSearchPage={onSearchPage} />}
+      {query.length !== 0 && showLoadMore && (
+        <LoadMoreBtn onSearchPage={onSearchPage} />
+      )}
     </div>
   );
 }
