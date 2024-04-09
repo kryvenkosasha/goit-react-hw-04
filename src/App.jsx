@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useEffect } from "react";
 import "./App.css";
 import { requestPicturesQuery } from "./api.js";
-import Loader from "./Components/Loader/Loader";
-import ImageGallery from "./Components/ImageGallery/ImageGallery";
-import SearchBar from "./Components/SearchBar/SearchBar";
-import LoadMoreBtn from "./Components/LoadMoreBtn/LoadMoreBtn";
-import ImageModal from "./Components/ImageModal/ImageModal.jsx";
+import Loader from "./components/Loader/Loader";
+import ImageGallery from "./components/ImageGallery/ImageGallery";
+import SearchBar from "./components/SearchBar/SearchBar";
+import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
+import ImageModal from "./components/ImageModal/ImageModal.jsx";
 import Modal from "react-modal";
 
 Modal.setAppElement;
