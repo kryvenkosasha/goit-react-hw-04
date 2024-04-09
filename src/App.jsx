@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import "./App.css";
 import { requestPicturesQuery } from "./api.js";
-import Loader from "./Components/Loader/Loader.jsx";
+import Loader from "./components/Loader/Loader.jsx";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import SearchBar from "./components/SearchBar/SearchBar";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
