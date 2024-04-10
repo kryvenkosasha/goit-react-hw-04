@@ -30,12 +30,14 @@ function App() {
         setError(false);
         setLoading(true);
         const data = await requestPicturesQuery(query, page);
+        setPictures((prev) => [...prev, ...data.results]);
         if (data.total === 0) {
           setError(true);
           setShowLoadMore(false);
+          return
         }
         setShowLoadMore(true);
-        setPictures((prev) => [...prev, ...data.results]);
+
       } catch (error) {
         setError(true);
         setShowLoadMore(false);
